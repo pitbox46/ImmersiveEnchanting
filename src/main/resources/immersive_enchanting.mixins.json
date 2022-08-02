@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "github.pitbox46.immersive_enchanting.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "immersive_enchanting.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
