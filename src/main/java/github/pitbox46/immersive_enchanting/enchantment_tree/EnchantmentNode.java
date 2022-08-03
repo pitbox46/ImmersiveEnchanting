@@ -3,6 +3,8 @@ package github.pitbox46.immersive_enchanting.enchantment_tree;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import github.pitbox46.immersive_enchanting.ImmersiveEnchanting;
+import github.pitbox46.immersive_enchanting.Util;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -11,7 +13,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.*;
 
 public class EnchantmentNode {
-    public static final ResourceLocation ROOT = new ResourceLocation("immersive_enchanting", "root");
+    public static final ResourceLocation ROOT = new ResourceLocation(ImmersiveEnchanting.ID, "root");
 
     private final ResourceLocation id;
     private final Enchantment enchantment;
@@ -67,7 +69,7 @@ public class EnchantmentNode {
     }
 
     public record ProtoNode(ResourceLocation id, Enchantment enchantment, int level, ResourceLocation parent, int parentLevel) {
-        public static final ResourceLocation NULL = new ResourceLocation("immersive_enchanting", "null");
+        public static final ResourceLocation NULL = new ResourceLocation(ImmersiveEnchanting.ID, "null");
 
         public EnchantmentNode createAndAttachNode(EnchantmentNode parent) {
             EnchantmentNode node = new EnchantmentNode(id, enchantment, level, parent);
@@ -80,7 +82,7 @@ public class EnchantmentNode {
         }
 
         public boolean isParentRoot() {
-            return this.parent.equals(new ResourceLocation("immersive_enchanting", "root"));
+            return this.parent.equals(new ResourceLocation(ImmersiveEnchanting.ID, "root"));
         }
 
         public static ProtoNode createNullNode(ResourceLocation rl) {
@@ -93,7 +95,7 @@ public class EnchantmentNode {
          * @param json The JSON object
          * @param protoNodeMap The map to be written to
          */
-        public static void fromJSON(ResourceLocation rl, JsonArray json, SetMap<Pair<ResourceLocation, Integer>, ProtoNode> protoNodeMap) {
+        public static void fromJSON(ResourceLocation rl, JsonArray json, Util.SetMap<Pair<ResourceLocation, Integer>, ProtoNode> protoNodeMap) {
             Enchantment enchantment = ForgeRegistries.ENCHANTMENTS.getValue(rl);
             if(enchantment == null) {
                 EnchantmentTreeManager.LOGGER.warn("Enchantment not found: {}", rl);
@@ -123,12 +125,4 @@ public class EnchantmentNode {
         }
     }
 
-    /**
-     * A map that has multiple values for each key. For convenience.
-     */
-    public static class SetMap<K, V> extends HashMap<K, Set<V>> {
-        public void putInSet(K key, V value) {
-            this.computeIfAbsent(key, a -> new HashSet<>()).add(value);
-        }
-    }
 }
