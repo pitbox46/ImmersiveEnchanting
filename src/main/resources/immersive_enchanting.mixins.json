@@ -5,7 +5,6 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "immersive_enchanting.refmap.json",
   "mixins": [
-    "EnchantmentMixin"
   ],
   "client": [
   ],
